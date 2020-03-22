@@ -2,13 +2,12 @@ package com.local.springjdbc.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +31,7 @@ public class SchoolControllerImpl implements SchoolController {
 	public ResponseEntity<Void> addNewStudent(@RequestBody final NewStudent student) {
 		boolean result = this.serviceStudent.addStudent(student.getStudentId(), student.getName());
 		if (result) {
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 	}
@@ -49,22 +48,22 @@ public class SchoolControllerImpl implements SchoolController {
 
 	@DeleteMapping("/student/{id}")
 	@Override
-	public ResponseEntity<Void> deleteStudent(@PathParam("id") final long id) {
+	public ResponseEntity<Void> deleteStudent(@PathVariable("id") final long id) {
 		boolean result = this.serviceStudent.deleteStudent(id);
 		if (result) {
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<Void>(HttpStatus.GONE);
 		}
 		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("/student/{id}")
 	@Override
-	public ResponseEntity<Student> findStudentById(@PathParam("id") final long id) {
+	public ResponseEntity<Student> findStudentById(@PathVariable("id") final long id) {
 		Student student = this.serviceStudent.findStudentById(id);
 		if (student != null) {
-			return new ResponseEntity<Student>(student, HttpStatus.OK);
+			return new ResponseEntity<Student>(student, HttpStatus.FOUND);
 		}
-		return new ResponseEntity<Student>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Student>(HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping("/students")
@@ -72,9 +71,9 @@ public class SchoolControllerImpl implements SchoolController {
 	public ResponseEntity<List<Student>> findAllStudents() {
 		List<Student> students = this.serviceStudent.findAllStudents();
 		if (students != null && students.size() > 0) {
-			return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
+			return new ResponseEntity<List<Student>>(students, HttpStatus.FOUND);
 		}
-		return new ResponseEntity<List<Student>>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<List<Student>>(HttpStatus.NOT_FOUND);
 	}
 
 }
