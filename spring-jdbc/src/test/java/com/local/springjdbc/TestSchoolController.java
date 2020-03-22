@@ -52,16 +52,17 @@ public class TestSchoolController {
 			.perform(delete("/school/student/{id}", 5)
 				.contentType(MediaType.APPLICATION_JSON))
 			.andDo(print())
-			.andExpect(status().isGone());
+			.andExpect(status().isOk());
 	}
 	
 	@Test
 	public void test_findStudentById() throws Exception {
 		this.mockMvc
-			.perform(get("/school/student/{id}", 5)
+			.perform(get("/school/student/{id}", 9)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isFound());
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 	
 	@Test
@@ -69,7 +70,7 @@ public class TestSchoolController {
 		this.mockMvc
 			.perform(get("/school/students"))
 			.andDo(print())
-			.andExpect(status().isFound());
+			.andExpect(status().isOk());
 	}
 	
 	private String asJsonString(final Object object) {
