@@ -51,7 +51,7 @@ public class SchoolControllerImpl implements SchoolController {
 	public ResponseEntity<Void> deleteStudent(@PathVariable("id") final long id) {
 		boolean result = this.serviceStudent.deleteStudent(id);
 		if (result) {
-			return new ResponseEntity<Void>(HttpStatus.GONE);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 	}
@@ -61,7 +61,7 @@ public class SchoolControllerImpl implements SchoolController {
 	public ResponseEntity<Student> findStudentById(@PathVariable("id") final long id) {
 		Student student = this.serviceStudent.findStudentById(id);
 		if (student != null) {
-			return new ResponseEntity<Student>(student, HttpStatus.FOUND);
+			return new ResponseEntity<Student>(student, HttpStatus.OK);
 		}
 		return new ResponseEntity<Student>(HttpStatus.NOT_FOUND);
 	}
@@ -71,7 +71,7 @@ public class SchoolControllerImpl implements SchoolController {
 	public ResponseEntity<List<Student>> findAllStudents() {
 		List<Student> students = this.serviceStudent.findAllStudents();
 		if (students != null && students.size() > 0) {
-			return new ResponseEntity<List<Student>>(students, HttpStatus.FOUND);
+			return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<Student>>(HttpStatus.NOT_FOUND);
 	}

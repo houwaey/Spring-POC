@@ -23,12 +23,10 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public boolean addStudent(final String studentId, final String name) throws DaoException, InternalServerException {
 		try {
-			int result = this.daoStudent.insert(studentId, name);
-			if (result <= 0) {
-				throw new NoAffectedRowsException("No affected row(s)");
-			}
-			return true;
+			return this.daoStudent.insert(studentId, name) > 0;
 		} catch (DataAccessException e) {
+			throw new NoAffectedRowsException("No affected row(s)");
+		} catch (Exception e) {
 			throw new InternalServerException("Database connection failure");
 		}
 	}
@@ -36,12 +34,10 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public boolean updateStudent(final long id, final String name) throws DaoException, InternalServerException {
 		try {
-			int result = this.daoStudent.update(id, name);
-			if (result <= 0) {
-				throw new NoAffectedRowsException("No affected row(s)");
-			}
-			return true;
+			return this.daoStudent.update(id, name) > 0;
 		} catch (DataAccessException e) {
+			throw new NoAffectedRowsException("No affected row(s)");
+		} catch (Exception e) {
 			throw new InternalServerException("Database connection failure");
 		}
 	}
@@ -49,12 +45,10 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public boolean deleteStudent(final long id) throws DaoException, InternalServerException {
 		try {
-			int result = this.daoStudent.delete(id);
-			if (result <= 0) {
-				throw new NoAffectedRowsException("No affected row(s)");
-			}
-			return true;
+			return this.daoStudent.delete(id) > 0;
 		} catch (DataAccessException e) {
+			throw new NoAffectedRowsException("No affected row(s)");
+		} catch (Exception e) {
 			throw new InternalServerException("Database connection failure");
 		}
 	}
@@ -62,12 +56,10 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Student findStudentById(final long id) throws DaoException, InternalServerException {
 		try {
-			Student student = this.daoStudent.findOne(id);
-			if (student == null) {
-				throw new NotFoundException("Student not found");
-			}
-			return student;
+			return this.daoStudent.findOne(id);
 		} catch (DataAccessException e) {
+			throw new NotFoundException("Student not found");
+		} catch (Exception e) {
 			throw new InternalServerException("Database connection failure");
 		}
 	}
@@ -75,12 +67,10 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<Student> findAllStudents() throws DaoException, InternalServerException {
 		try {
-			List<Student> students = this.daoStudent.findAll();
-			if (students == null || students.size() <= 0) {
-				throw new NoRecordFoundException("No student's record(s) found");
-			}
-			return students;
+			return this.daoStudent.findAll();
 		} catch (DataAccessException e) {
+			throw new NoRecordFoundException("No student's record(s) found");
+		} catch (Exception e) {
 			throw new InternalServerException("Database connection failure");
 		}
 	}
