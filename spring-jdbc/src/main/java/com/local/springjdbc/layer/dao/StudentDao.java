@@ -12,9 +12,13 @@ public interface StudentDao {
 	
 	public int update(long id, String name) throws DataAccessException;
 	
-	public int delete(long id) throws DataAccessException;
+	public int deleteById(long id) throws DataAccessException;
 	
-	public Student findOne(long id) throws DataAccessException;
+	public int deleteByStudentId(String studentId) throws DataAccessException;
+	
+	public Student findOneById(long id) throws DataAccessException;
+	
+	public Student findOneByStudentId(String studentId) throws DataAccessException;
 	
 	public List<Student> findAll() throws DataAccessException;
 	

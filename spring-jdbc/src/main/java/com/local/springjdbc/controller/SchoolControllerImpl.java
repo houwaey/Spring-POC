@@ -46,20 +46,40 @@ public class SchoolControllerImpl implements SchoolController {
 		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 	}
 
-	@DeleteMapping("/student/{id}")
+	@DeleteMapping("/student/id/{id}")
 	@Override
-	public ResponseEntity<Void> deleteStudent(@PathVariable("id") final long id) {
-		boolean result = this.serviceStudent.deleteStudent(id);
+	public ResponseEntity<Void> deleteStudentById(@PathVariable("id") final long id) {
+		boolean result = this.serviceStudent.deleteStudentById(id);
 		if (result) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping("/student/{id}")
+	@DeleteMapping("/student/student-id/{studentId}")
+	@Override
+	public ResponseEntity<Void> deleteStudentByStudentId(@PathVariable("studentId") String studentId) {
+		boolean result = this.serviceStudent.deleteStudentByStudentId(studentId);
+		if (result) {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/student/id/{id}")
 	@Override
 	public ResponseEntity<Student> findStudentById(@PathVariable("id") final long id) {
 		Student student = this.serviceStudent.findStudentById(id);
+		if (student != null) {
+			return new ResponseEntity<Student>(student, HttpStatus.OK);
+		}
+		return new ResponseEntity<Student>(HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping("/student/student-id/{studentId}")
+	@Override
+	public ResponseEntity<Student> findStudentByStudentId(@PathVariable("studentId") String studentId) {
+		Student student = this.serviceStudent.findStudentByStudentId(studentId);
 		if (student != null) {
 			return new ResponseEntity<Student>(student, HttpStatus.OK);
 		}

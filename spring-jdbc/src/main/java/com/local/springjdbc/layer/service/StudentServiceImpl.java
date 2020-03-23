@@ -43,9 +43,20 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public boolean deleteStudent(final long id) throws DaoException, InternalServerException {
+	public boolean deleteStudentById(final long id) throws DaoException, InternalServerException {
 		try {
-			return this.daoStudent.delete(id) > 0;
+			return this.daoStudent.deleteById(id) > 0;
+		} catch (DataAccessException e) {
+			throw new NoAffectedRowsException("No affected row(s)");
+		} catch (Exception e) {
+			throw new InternalServerException("Database connection failure");
+		}
+	}
+	
+	@Override
+	public boolean deleteStudentByStudentId(final String studentId) throws DaoException, InternalServerException {
+		try {
+			return this.daoStudent.deleteByStudentId(studentId) > 0;
 		} catch (DataAccessException e) {
 			throw new NoAffectedRowsException("No affected row(s)");
 		} catch (Exception e) {
@@ -56,7 +67,18 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Student findStudentById(final long id) throws DaoException, InternalServerException {
 		try {
-			return this.daoStudent.findOne(id);
+			return this.daoStudent.findOneById(id);
+		} catch (DataAccessException e) {
+			throw new NotFoundException("Student not found");
+		} catch (Exception e) {
+			throw new InternalServerException("Database connection failure");
+		}
+	}
+	
+	@Override
+	public Student findStudentByStudentId(final String studentId) throws DaoException, InternalServerException {
+		try {
+			return this.daoStudent.findOneByStudentId(studentId);
 		} catch (DataAccessException e) {
 			throw new NotFoundException("Student not found");
 		} catch (Exception e) {

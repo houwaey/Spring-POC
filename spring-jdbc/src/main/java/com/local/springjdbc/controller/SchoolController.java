@@ -43,15 +43,23 @@ public interface SchoolController {
 				required = true)
 		UpdateStudent student);
 	
-	@ApiOperation(value = "Delete Student", notes = "Delete a Student in the System.", tags={ "school" })
+	@ApiOperation(value = "Delete by Record ID", notes = "Delete a Student in the System using record ID.", tags={ "school" })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Student has been successfully deleted."),
         @ApiResponse(code = 400, message = "Unable to process your request."),
         @ApiResponse(code = 415, message = "The content type is unsupported"),
         @ApiResponse(code = 500, message = "An unexpected error has been occurred.") })
-	public ResponseEntity<Void> deleteStudent(@ApiParam(value="Record ID of the Student", required=true) long id);
+	public ResponseEntity<Void> deleteStudentById(@ApiParam(value="Record ID of the Student", required=true) long id);
 	
-	@ApiOperation(value = "Find Student by ID", notes = "Find student data using record ID.", tags={ "school" })
+	@ApiOperation(value = "Delete by Student ID", notes = "Delete a Student in the System using Student ID.", tags={ "school" })
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Student has been successfully deleted."),
+        @ApiResponse(code = 400, message = "Unable to process your request."),
+        @ApiResponse(code = 415, message = "The content type is unsupported"),
+        @ApiResponse(code = 500, message = "An unexpected error has been occurred.") })
+	public ResponseEntity<Void> deleteStudentByStudentId(@ApiParam(value="Student's unique ID", required=true) String studentId);
+	
+	@ApiOperation(value = "Find by Record ID", notes = "Find student data using record ID.", tags={ "school" })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully fetched Student"),
         @ApiResponse(code = 400, message = "Unable to process your request."),
@@ -59,6 +67,15 @@ public interface SchoolController {
         @ApiResponse(code = 415, message = "The content type is unsupported"),
         @ApiResponse(code = 500, message = "An unexpected error has been occurred.") })
 	public ResponseEntity<Student> findStudentById(@ApiParam(value="Record ID of the Student", required=true) long id);
+	
+	@ApiOperation(value = "Find by Student ID", notes = "Find student data using Student ID.", tags={ "school" })
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully fetched Student"),
+        @ApiResponse(code = 400, message = "Unable to process your request."),
+        @ApiResponse(code = 404, message = "Student not found."),
+        @ApiResponse(code = 415, message = "The content type is unsupported"),
+        @ApiResponse(code = 500, message = "An unexpected error has been occurred.") })
+	public ResponseEntity<Student> findStudentByStudentId(@ApiParam(value="Student's unique ID", required=true) String studentId);
 	
 	@ApiOperation(value = "Find all Students", notes = "Find all Students in the System", tags={ "school" })
     @ApiResponses(value = {

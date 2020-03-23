@@ -33,8 +33,8 @@ public class TestStudentService {
 	}
 	
 	@Test
-	public void test_deleteStudent() {
-		boolean result = this.serviceStudent.deleteStudent(1);
+	public void test_deleteStudentById() {
+		boolean result = this.serviceStudent.deleteStudentById(1);
 		System.out.println("Delete Result: " + result);
 	}
 	

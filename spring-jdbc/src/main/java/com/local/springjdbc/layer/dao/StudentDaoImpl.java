@@ -28,14 +28,26 @@ public class StudentDaoImpl implements StudentDao {
 	}
 
 	@Override
-	public int delete(final long id) throws DataAccessException {
+	public int deleteById(final long id) throws DataAccessException {
 		return this.jdbcTemplate.update("DELETE FROM student WHERE id=?", id);
+	}
+	
+	@Override
+	public int deleteByStudentId(String studentId) throws DataAccessException {
+		return this.jdbcTemplate.update("DELETE FROM student WHERE studentid=?", studentId);
 	}
 
 	@Override
-	public Student findOne(final long id) throws DataAccessException {
+	public Student findOneById(final long id) throws DataAccessException {
 		String query = "SELECT * FROM student WHERE id=?";
 		Student student = this.jdbcTemplate.queryForObject(query, new Object[] {id}, new StudentRowMapper());
+		return student;
+	}
+	
+	@Override
+	public Student findOneByStudentId(String studentId) throws DataAccessException {
+		String query = "SELECT * FROM student WHERE studentid=?";
+		Student student = this.jdbcTemplate.queryForObject(query, new Object[] {studentId}, new StudentRowMapper());
 		return student;
 	}
 
