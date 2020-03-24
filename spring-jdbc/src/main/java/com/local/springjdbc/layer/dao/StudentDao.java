@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.local.springjdbc.dto.Student;
+import com.local.springjdbc.dto.request.NewStudent;
 
 public interface StudentDao {
 
 	public int insert(String studentId, String name) throws DataAccessException;
+	
+	public int[] batchInsert(List<NewStudent> students) throws DataAccessException; 
 	
 	public int update(long id, String name) throws DataAccessException;
 	

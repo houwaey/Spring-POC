@@ -35,6 +35,16 @@ public class SchoolControllerImpl implements SchoolController {
 		}
 		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@PostMapping("/students")
+	@Override
+	public ResponseEntity<Void> addNewStudents(@RequestBody final List<NewStudent> students) {
+		boolean result = this.serviceStudent.addStudents(students);
+		if (result) {
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		}
+		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+	}
 
 	@PutMapping("/student")
 	@Override

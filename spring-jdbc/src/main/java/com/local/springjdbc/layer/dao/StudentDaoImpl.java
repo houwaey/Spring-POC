@@ -1,14 +1,18 @@
 
 package com.local.springjdbc.layer.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.local.springjdbc.dto.Student;
+import com.local.springjdbc.dto.request.NewStudent;
 import com.local.springjdbc.layer.dao.mapper.StudentRowMapper;
 
 @Repository
@@ -20,6 +24,24 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public int insert(final String studentId, final String name) throws DataAccessException {
 		return this.jdbcTemplate.update("INSERT INTO student(studentid, name) VALUES(?, ?)", studentId, name);
+	}
+	
+	@Override
+	public int[] batchInsert(List<NewStudent> students) throws DataAccessException {
+		return this.jdbcTemplate.batchUpdate("INSERT INTO student(studentid, name) VALUES(?, ?)", 
+				new BatchPreparedStatementSetter() {
+						@Override
+						public void setValues(PreparedStatement ps, int i) throws SQLException {
+							ps.setString(1, students.get(i).getStudentId());
+							ps.setString(2, students.get(i).getName());
+						}
+						
+						@Override
+						public int getBatchSize() {
+							return  students.size();
+						}
+					}
+				);
 	}
 	
 	@Override

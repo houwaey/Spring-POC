@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.local.springjdbc.dto.Student;
+import com.local.springjdbc.dto.request.NewStudent;
 import com.local.springjdbc.exception.DaoException;
 import com.local.springjdbc.exception.InternalServerException;
 import com.local.springjdbc.exception.NoAffectedRowsException;
@@ -24,6 +25,19 @@ public class StudentServiceImpl implements StudentService {
 	public boolean addStudent(final String studentId, final String name) throws DaoException, InternalServerException {
 		try {
 			return this.daoStudent.insert(studentId, name) > 0;
+		} catch (DataAccessException e) {
+			throw new NoAffectedRowsException("No affected row(s)");
+		} catch (Exception e) {
+			throw new InternalServerException("Database connection failure");
+		}
+	}
+	
+	@Override
+	public boolean addStudents(List<NewStudent> students) throws DaoException, InternalServerException {
+		try {
+			int[] returns = this.daoStudent.batchInsert(students);
+			System.out.println("returns: " + returns);
+			return true;
 		} catch (DataAccessException e) {
 			throw new NoAffectedRowsException("No affected row(s)");
 		} catch (Exception e) {

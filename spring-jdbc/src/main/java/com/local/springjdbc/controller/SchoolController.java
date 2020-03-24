@@ -30,6 +30,19 @@ public interface SchoolController {
 			required = true)
 		NewStudent student);
 	
+	@ApiOperation(value = "Add new Students", notes = "Add new Students in the System. See the schema of the parameter for more information.", tags={ "school" })
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Student has been successfully added."),
+        @ApiResponse(code = 400, message = "Unable to process your request."),
+        @ApiResponse(code = 415, message = "The content type is unsupported"),
+        @ApiResponse(code = 500, message = "An unexpected error has been occurred.") })
+	public ResponseEntity<Void> addNewStudents(
+		@ApiParam(
+			name = "List<NewStudent>",
+			value = "A JSON value for adding a new Students",
+			required = true)
+		List<NewStudent> students);
+	
 	@ApiOperation(value = "Update Student", notes = "Update a Student in the System. See the schema of the parameter for more information.", tags={ "school" })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Student has been successfully updated."),
