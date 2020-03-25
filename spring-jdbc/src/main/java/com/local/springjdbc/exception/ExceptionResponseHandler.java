@@ -8,17 +8,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.local.springjdbc.util.Message;
+
 @ControllerAdvice
 @RestController
 public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler({ Error.class })
-	public final ResponseEntity<Object> handleAllError(Error error, WebRequest request) {
+	public final ResponseEntity<Object> handleAllError(Throwable error, WebRequest request) {
 		return new ResponseEntity<Object>(
 					new ThrowableObject(
-							HttpStatus.SERVICE_UNAVAILABLE
+							error
+							, HttpStatus.SERVICE_UNAVAILABLE
+							, Message.SERVICE_UNAVAILABLE.value()
 							, error.getMessage()
-							, error.getClass().getName()
 							, request.getDescription(true))
 					, HttpStatus.SERVICE_UNAVAILABLE
 				);
@@ -28,23 +31,38 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<Object> handleAllException(Exception exception, WebRequest request) {
 		return new ResponseEntity<Object>(
 					new ThrowableObject(
-							HttpStatus.INTERNAL_SERVER_ERROR
+							exception
+							, HttpStatus.INTERNAL_SERVER_ERROR
+							, Message.INTERNAL_SERVER_ERROR.value()
 							, exception.getMessage()
-							, exception.getClass().getName()
 							, request.getDescription(true))
 					, HttpStatus.INTERNAL_SERVER_ERROR
 				);
 	}
 	
-	@ExceptionHandler({ DaoException.class })
+	@ExceptionHandler({ NoAffectedRowsException.class, DaoException.class })
 	public final ResponseEntity<Object> handleDaoException(DaoException exception, WebRequest request) {
 		return new ResponseEntity<Object>(
 					new ThrowableObject(
-							HttpStatus.BAD_REQUEST
+							exception
+							, HttpStatus.BAD_REQUEST
 							, exception.getMessage()
-							, exception.getClass().getName()
+							, exception.getDeveloperMessage()
 							, request.getDescription(true))
-					, HttpStatus.NOT_FOUND
+					, HttpStatus.BAD_REQUEST
+				);
+	}
+	
+	@ExceptionHandler({ NoRecordFoundException.class, NotFoundException.class, RootException.class })
+	public final ResponseEntity<Object> handleRootException(RootException exception, WebRequest request) {
+		return new ResponseEntity<Object>(
+					new ThrowableObject(
+							exception
+							, exception.getHttpStatus()
+							, exception.getMessage()
+							, exception.getDeveloperMessage()
+							, request.getDescription(true))
+					, exception.getHttpStatus()
 				);
 	}
 	

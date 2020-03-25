@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,12 +21,12 @@ public class StudentDaoImpl implements StudentDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public int insert(final String studentId, final String name) throws DataAccessException {
+	public int insert(final String studentId, final String name) {
 		return this.jdbcTemplate.update("INSERT INTO student(studentid, name) VALUES(?, ?)", studentId, name);
 	}
 	
 	@Override
-	public int[] batchInsert(List<NewStudent> students) throws DataAccessException {
+	public int[] batchInsert(List<NewStudent> students) {
 		return this.jdbcTemplate.batchUpdate("INSERT INTO student(studentid, name) VALUES(?, ?)", 
 				new BatchPreparedStatementSetter() {
 						@Override
@@ -45,36 +44,36 @@ public class StudentDaoImpl implements StudentDao {
 	}
 	
 	@Override
-	public int update(final long id, final String name) throws DataAccessException {
+	public int update(final long id, final String name) {
 		return this.jdbcTemplate.update("UPDATE student SET name=? WHERE id=?", name, id);
 	}
 
 	@Override
-	public int deleteById(final long id) throws DataAccessException {
+	public int deleteById(final long id) {
 		return this.jdbcTemplate.update("DELETE FROM student WHERE id=?", id);
 	}
 	
 	@Override
-	public int deleteByStudentId(String studentId) throws DataAccessException {
+	public int deleteByStudentId(String studentId) {
 		return this.jdbcTemplate.update("DELETE FROM student WHERE studentid=?", studentId);
 	}
 
 	@Override
-	public Student findOneById(final long id) throws DataAccessException {
+	public Student findOneById(final long id) {
 		String query = "SELECT * FROM student WHERE id=?";
 		Student student = this.jdbcTemplate.queryForObject(query, new Object[] {id}, new StudentRowMapper());
 		return student;
 	}
 	
 	@Override
-	public Student findOneByStudentId(String studentId) throws DataAccessException {
+	public Student findOneByStudentId(String studentId) {
 		String query = "SELECT * FROM student WHERE studentid=?";
 		Student student = this.jdbcTemplate.queryForObject(query, new Object[] {studentId}, new StudentRowMapper());
 		return student;
 	}
 
 	@Override
-	public List<Student> findAll() throws DataAccessException {
+	public List<Student> findAll() {
 		String query = "SELECT * FROM student ORDER BY datecreated DESC";
 		List<Student> students = this.jdbcTemplate.query(query, new StudentRowMapper());
 		return students;
