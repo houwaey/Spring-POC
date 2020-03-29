@@ -22,7 +22,7 @@ public class TestStudentService {
 	
 	@Test
 	public void test_addStudent() {
-		boolean result = this.serviceStudent.addStudent("A-001", "John Paulo Marquez");
+		boolean result = this.serviceStudent.addStudent("A-002", "John Paulo Marquez");
 		System.out.println("Insert Result: " + result);
 	}
 	
@@ -33,8 +33,8 @@ public class TestStudentService {
 	}
 	
 	@Test
-	public void test_deleteStudent() {
-		boolean result = this.serviceStudent.deleteStudent(1);
+	public void test_deleteStudentById() {
+		boolean result = this.serviceStudent.deleteStudentById(1);
 		System.out.println("Delete Result: " + result);
 	}
 	

@@ -1,9 +1,29 @@
 package com.local.springjdbc.exception;
 
-public class DaoException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+import com.local.springjdbc.util.Message;
+
+public class DaoException extends RootException {
 
 	public DaoException() {
-		super();
+		super(Message.DAO_EXCEPTION.value());
+	}
+
+	public DaoException(HttpStatus httpStatus, Message message, String developerMessage) {
+		super(httpStatus, message, developerMessage);
+	}
+
+	public DaoException(HttpStatus httpStatus, Message message) {
+		super(httpStatus, message);
+	}
+
+	public DaoException(Message message, String developerMessage) {
+		super(message, developerMessage);
+	}
+
+	public DaoException(Message message) {
+		super(message);
 	}
 
 	public DaoException(String message, Throwable cause) {
@@ -15,7 +35,7 @@ public class DaoException extends RuntimeException {
 	}
 
 	public DaoException(Throwable cause) {
-		super(cause);
+		super(Message.DAO_EXCEPTION.value(), cause);
 	}
-
+	
 }

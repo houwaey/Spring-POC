@@ -2,6 +2,8 @@ package com.local.springjdbc.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.local.springjdbc.dto.Student;
 import com.local.springjdbc.dto.request.NewStudent;
 import com.local.springjdbc.dto.request.UpdateStudent;
+import com.local.springjdbc.dto.response.ApiResponse;
 import com.local.springjdbc.layer.service.StudentService;
 
 @RequestMapping("/school")
@@ -28,52 +31,74 @@ public class SchoolControllerImpl implements SchoolController {
 	
 	@PostMapping("/student")
 	@Override
-	public ResponseEntity<Void> addNewStudent(@RequestBody final NewStudent student) {
-		boolean result = this.serviceStudent.addStudent(student.getStudentId(), student.getName());
-		if (result) {
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
-		}
-		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> addNewStudent(@Valid @RequestBody final NewStudent student) {
+		this.serviceStudent.addStudent(student.getStudentId(), student.getName());
+		return new ResponseEntity<ApiResponse<?>>(
+				new ApiResponse<Void>(HttpStatus.CREATED)
+				, HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/students")
+	@Override
+	public ResponseEntity<?> addNewStudents(@RequestBody final List<NewStudent> students) {
+		this.serviceStudent.addStudents(students);
+		return new ResponseEntity<ApiResponse<?>>(
+				new ApiResponse<Void>(HttpStatus.CREATED)
+				, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/student")
 	@Override
-	public ResponseEntity<Void> updateStudent(@RequestBody final UpdateStudent student) {
-		boolean result = this.serviceStudent.updateStudent(student.getId(), student.getName());
-		if (result) {
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
-		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> updateStudent(@RequestBody final UpdateStudent student) {
+		this.serviceStudent.updateStudent(student.getId(), student.getName());
+		return new ResponseEntity<ApiResponse<?>>(
+				new ApiResponse<Void>(HttpStatus.OK)
+				, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/student/{id}")
+	@DeleteMapping("/student/id/{id}")
 	@Override
-	public ResponseEntity<Void> deleteStudent(@PathVariable("id") final long id) {
-		boolean result = this.serviceStudent.deleteStudent(id);
-		if (result) {
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
-		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> deleteStudentById(@PathVariable final long id) {
+		this.serviceStudent.deleteStudentById(id);
+		return new ResponseEntity<ApiResponse<?>>(
+				new ApiResponse<Void>(HttpStatus.OK)
+				, HttpStatus.OK);
 	}
 	
-	@GetMapping("/student/{id}")
+	@DeleteMapping("/student/student-id/{studentId}")
 	@Override
-	public ResponseEntity<Student> findStudentById(@PathVariable("id") final long id) {
+	public ResponseEntity<?> deleteStudentByStudentId(@PathVariable String studentId) {
+		this.serviceStudent.deleteStudentByStudentId(studentId);
+		return new ResponseEntity<ApiResponse<?>>(
+				new ApiResponse<Void>(HttpStatus.OK)
+				, HttpStatus.OK);
+	}
+	
+	@GetMapping("/student/id/{id}")
+	@Override
+	public ResponseEntity<?> findStudentById(@PathVariable final long id) {
 		Student student = this.serviceStudent.findStudentById(id);
-		if (student != null) {
-			return new ResponseEntity<Student>(student, HttpStatus.OK);
-		}
-		return new ResponseEntity<Student>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ApiResponse<Student>>(
+				new ApiResponse<Student>(student, HttpStatus.OK)
+				, HttpStatus.OK);
+	} 
+	
+	@GetMapping("/student/student-id/{studentId}")
+	@Override
+	public ResponseEntity<?> findStudentByStudentId(@PathVariable String studentId) {
+		Student student = this.serviceStudent.findStudentByStudentId(studentId);
+		return new ResponseEntity<ApiResponse<Student>>(
+				new ApiResponse<Student>(student, HttpStatus.OK)
+				, HttpStatus.OK);
 	}
 
 	@GetMapping("/students")
 	@Override
-	public ResponseEntity<List<Student>> findAllStudents() {
+	public ResponseEntity<?> findAllStudents() {
 		List<Student> students = this.serviceStudent.findAllStudents();
-		if (students != null && students.size() > 0) {
-			return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
-		}
-		return new ResponseEntity<List<Student>>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ApiResponse<List<Student>>>(
+				new ApiResponse<List<Student>>(students, HttpStatus.OK)
+				, HttpStatus.OK);
 	}
 
 }

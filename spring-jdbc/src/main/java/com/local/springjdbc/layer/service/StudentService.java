@@ -3,19 +3,24 @@ package com.local.springjdbc.layer.service;
 import java.util.List;
 
 import com.local.springjdbc.dto.Student;
-import com.local.springjdbc.exception.DaoException;
-import com.local.springjdbc.exception.InternalServerException;
+import com.local.springjdbc.dto.request.NewStudent;
 
 public interface StudentService {
 
-	public boolean addStudent(final String studentId, final String name) throws DaoException, InternalServerException;
+	public boolean addStudent(String studentId, String name);
 	
-	public boolean updateStudent(final long id, final String name) throws DaoException, InternalServerException;
+	public boolean addStudents(List<NewStudent> students);
 	
-	public boolean deleteStudent(final long id) throws DaoException, InternalServerException;
+	public boolean updateStudent(long id, String name);
 	
-	public Student findStudentById(final long id) throws DaoException, InternalServerException;
+	public boolean deleteStudentById(long id);
 	
-	public List<Student> findAllStudents() throws DaoException, InternalServerException;
+	public boolean deleteStudentByStudentId(String studentId);
+	
+	public Student findStudentById(long id);
+	
+	public Student findStudentByStudentId(String studentId);
+	
+	public List<Student> findAllStudents();
 	
 }
