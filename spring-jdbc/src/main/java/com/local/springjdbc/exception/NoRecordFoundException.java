@@ -7,7 +7,7 @@ import com.local.springjdbc.util.Message;
 public class NoRecordFoundException extends NotFoundException {
 
 	public NoRecordFoundException() {
-		super();
+		super(Message.NO_RECORD_FOUND.value());
 	}
 
 	public NoRecordFoundException(HttpStatus httpStatus, Message message, String developerMessage) {
@@ -35,7 +35,7 @@ public class NoRecordFoundException extends NotFoundException {
 	}
 
 	public NoRecordFoundException(Throwable cause) {
-		super(cause);
+		super(Message.NO_RECORD_FOUND.value(), cause);
 	}
 
 }

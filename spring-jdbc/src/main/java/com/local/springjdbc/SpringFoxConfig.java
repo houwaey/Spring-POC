@@ -1,7 +1,6 @@
 package com.local.springjdbc;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +31,7 @@ class SpringFoxConfig {
 				.apiInfo(apiInfo());
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private ApiInfo apiInfo() {
 	       ApiInfo apiInfo = new ApiInfo(
 	      "School RESTful WebService", 

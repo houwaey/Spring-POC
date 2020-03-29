@@ -7,7 +7,7 @@ import com.local.springjdbc.util.Message;
 public class DaoException extends RootException {
 
 	public DaoException() {
-		super();
+		super(Message.DAO_EXCEPTION.value());
 	}
 
 	public DaoException(HttpStatus httpStatus, Message message, String developerMessage) {
@@ -35,7 +35,7 @@ public class DaoException extends RootException {
 	}
 
 	public DaoException(Throwable cause) {
-		super(cause);
+		super(Message.DAO_EXCEPTION.value(), cause);
 	}
 	
 }

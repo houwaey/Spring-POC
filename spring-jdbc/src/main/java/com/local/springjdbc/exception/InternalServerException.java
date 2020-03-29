@@ -7,7 +7,7 @@ import com.local.springjdbc.util.Message;
 public class InternalServerException extends RootException {
 
 	public InternalServerException() {
-		super();
+		super(Message.INTERNAL_SERVER_ERROR.value());
 	}
 
 	public InternalServerException(HttpStatus httpStatus, Message message, String developerMessage) {
@@ -35,7 +35,7 @@ public class InternalServerException extends RootException {
 	}
 
 	public InternalServerException(Throwable cause) {
-		super(cause);
+		super(Message.INTERNAL_SERVER_ERROR.value(), cause);
 	}
 
 }

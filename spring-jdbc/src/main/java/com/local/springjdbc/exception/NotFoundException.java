@@ -7,7 +7,7 @@ import com.local.springjdbc.util.Message;
 public class NotFoundException extends DaoException {
 
 	public NotFoundException() {
-		super();
+		super(Message.NOT_FOUND.value());
 	}
 
 	public NotFoundException(HttpStatus httpStatus, Message message, String developerMessage) {
@@ -35,7 +35,7 @@ public class NotFoundException extends DaoException {
 	}
 
 	public NotFoundException(Throwable cause) {
-		super(cause);
+		super(Message.NOT_FOUND.value(), cause);
 	}
 
 }
